@@ -2,20 +2,57 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
+# a ) A série é estacionária?
+
 data = pd.read_csv("../../../data/ICV.csv", delimiter=",")
 print(data.shape)
 
-data["Data"] = pd.to_datetime(data["Mes/ano"], format="%m/%y")
+data["data"] = pd.to_datetime(data["Mes/ano"], format="%m/%y")
 print(data.describe()) 
 
 plt.figure(figsize=(10,6))
-plt.plot(data["Data"], data["ICV"])
-
-plt.axhline(y=data["ICV"].mean(), color='r', linestyle='--', label=f'Média ICV = {data["ICV"].mean():.2f}')
+plt.plot(data["data"], data["ICV"])
 plt.title("Variação do ICV ao longo do tempo")
 plt.xlabel("Tempo")
 plt.ylabel("ICV")
 plt.grid()
 plt.show()
 
-# série não é estacionária
+# série não é estacionária, a tendência crescente é facilmente percebida.
+
+#
+#
+
+# b) A primeira diferença é estacionária?
+
+data["first_diff"] = data["ICV"].diff()
+
+plt.figure(figsize=(10,6))
+plt.plot(data["data"], data["first_diff"])
+plt.title("Variação do ICV ao longo do tempo (primeira diferença)")
+plt.xlabel("Tempo")
+plt.ylabel("ICV")
+plt.grid()
+plt.show()
+
+# Não é estacionária. Uma tendência crescente ainda é notável, na série.
+
+#
+#
+
+# c) a segunda diferença é estacionária?
+
+data["second_diff"] = data["first_diff"].diff()
+
+plt.figure(figsize=(10,6))
+plt.plot(data["data"], data["second_diff"])
+plt.title("Variação do ICV ao longo do tempo (primeira diferença)")
+plt.xlabel("Tempo")
+plt.ylabel("ICV")
+plt.grid()
+plt.show()
+
+# Não é estacionária. Há mudança na variância conforme o tempo passa.
+
+
+
