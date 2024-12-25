@@ -1,14 +1,14 @@
-import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# a ) A série é estacionária?
 
 data = pd.read_csv("../../../data/ICV.csv", delimiter=",")
 print(data.shape)
 
 data["data"] = pd.to_datetime(data["Mes/ano"], format="%m/%y")
 print(data.describe()) 
+
+# a ) A série é estacionária?
 
 plt.figure(figsize=(10,6))
 plt.plot(data["data"], data["ICV"])
